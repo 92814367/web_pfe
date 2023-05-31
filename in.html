@@ -1,145 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <title>Projet Pfe</title>
+    <title>Google MAPS</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  <title>Projet Pfe</title>
-  <title>Google MAPS</title>
-</head>
+  <body>
+    <header>
+      <h1 class="header">Health Monioring System</h1>
+      <a href="tel:+216190"><button>urgence</button></a>
+    </header>
 
-<body>
+    <div class="container">
+      <h1 class="title">Sensor Reading</h1>
+      <hr />
+      <img src="icons/low-temperature.png" alt="temperature" height="40px" />
+      <h1 class="sens">Room Temperature</h1>
+      <div class="env_temp sensR" id="Env_temp"></div>
+      <div class="sensR symb">&#8451;</div>
+      <hr />
 
-  <header>
-    <h1 class="header">Health Monioring System</h1>
-    <a href="tel:+216190"><button>urgence</button></a>
-  </header>
+      <img src="icons/humidity.png" alt="humidity" height="40px" />
+      <h1 class="sens">Room Humidity</h1>
+      <div class="humidity sensR" id="Humidity"></div>
+      <div class="sensR symb">%</div>
+      <hr />
 
-  <div class="container">
-    <h1 class="title">Sensor Reading</h1>
-    <hr />
-    <img src="icons/low-temperature.png" alt="temperature" height="40px">
-    <h1 class="sens">Room Temperature</h1>
-    <div class="env_temp sensR" id="Env_temp"></div>
-    <div class="sensR symb">&#8451;</div>
-    <hr />
+      <img src="icons/heart-attack.png" alt="heart rate" height="40px" />
+      <h1 class="sens">Heart Rate</h1>
+      <div class="cardiaque sensR" id="Cardiaque"></div>
+      <div class="sensR symb">BPM</div>
+      <hr />
 
-    <img src="icons/humidity.png" alt="humidity" height="40px">
-    <h1 class="sens">Room Humidity</h1>
-    <div class="humidity sensR" id="Humidity"></div>
-    <div class="sensR symb">%</div>
-    <hr />
+      <img src="icons/thermometer.png" alt="temperature_c" height="40px" />
+      <h1 class="sens">Body Temperature</h1>
+      <div class="temperature sensR" id="temperature_c"></div>
+      <div class="sensR symb">&#8451;</div>
+      <hr />
 
-    <img src="icons/heart-attack.png" alt="heart rate" height="40px">
-    <h1 class="sens">Heart Rate</h1>
-    <div class="cardiaque sensR" id="Cardiaque"></div>
-    <div class="sensR symb">BPM</div>
-    <hr />
+      <img src="icons/thermometer.png" alt="latitude" height="40px" />
+      <h1 class="sens">Latitude</h1>
+      <div class="latitude sensR" id="latitude"></div>
+      <div class="sensR symb">lat</div>
+      <hr />
 
-    <img src="icons/thermometer.png" alt="temperature_c" height="40px">
-    <h1 class="sens">Body Temperature</h1>
-    <div class="temperature sensR" id="temperature_c"></div>
-    <div class="sensR symb">&#8451;</div>
-    <hr />
+      <img src="icons/thermometer.png" alt="longitude" height="40px" />
+      <h1 class="sens">Longitude</h1>
+      <div class="longitude sensR" id="longitude"></div>
+      <div class="sensR symb">lon</div>
+    </div>
 
-    <img src="icons/thermometer.png" alt="latitude" height="40px">
-    <h1 class="sens">Latitude</h1>
-    <div class="latitude sensR" id="latitude"></div>
-    <div class="sensR symb">lat</div>
-    <hr />
+    <div id="map"></div>
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
 
-    <img src="icons/thermometer.png" alt="longitude" height="40px">
-    <h1 class="sens">Longitude</h1>
-    <div class="longitude sensR" id="longitude"></div>
-    <div class="sensR symb">lon</div>
+      import {
+        getDatabase,
+        ref,
+        onValue,
+      } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
+      // import firebase from "https://www.gstatic.com/firebasejs/9.17.2/firebase-"
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDWwX4DVyHOY0FtgWCivVixEXxCyYpCYYc",
+        authDomain: "project-6120395548410327973-d62b0.firebaseapp.com",
+        projectId: "project-6120395548410327973",
+        storageBucket: "project-6120395548410327973.appspot.com",
+        messagingSenderId: "528752702372",
+        appId: "1:528752702372:web:8fa1a064b05b1f2fac0731",
+        measurementId: "G-K4WZFRZWE9",
+      };
 
-  </div>
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
 
+      const database = getDatabase(app);
 
+      const temperature = document.getElementById("temperature_c");
+      const cardiaque = document.getElementById("Cardiaque");
+      const temperature_environement = document.getElementById("Env_temp");
+      const humidity = document.getElementById("Humidity");
+      const lat = document.getElementById("latitude");
+      const lon = document.getElementById("longitude");
 
+      const temperatureRef = ref(database, "temperature_c");
+      onValue(temperatureRef, (snapshot) => {
+        const data = snapshot.val();
+        console.log(data);
+        temperature.innerHTML = data;
+      });
+      const cardiaqueRef = ref(database, "cardiaque");
+      onValue(cardiaqueRef, (snapshot) => {
+        const data = snapshot.val();
+        console.log(data);
+        cardiaque.innerHTML = data;
+      });
+      const tempEnvRef = ref(database, "tempEnv");
+      onValue(tempEnvRef, (snapshot) => {
+        const data = snapshot.val();
+        console.log(data);
+        temperature_environement.innerHTML = data;
+      });
+      const humidityRef = ref(database, "humidity");
+      onValue(humidityRef, (snapshot) => {
+        const data = snapshot.val();
+        console.log(data);
+        humidity.innerHTML = data;
+      });
+      const longitudeRef = ref(database, "longitude");
+      onValue(longitudeRef, (snapshot) => {
+        const data = snapshot.val();
+        console.log(data);
+        lon.innerHTML = data;
+      });
+      const latitudeRef = ref(database, "latitude");
+      onValue(latitudeRef, (snapshot) => {
+        const data = snapshot.val();
+        console.log(data);
+        lat.innerHTML = data;
+      });
 
+      var map = L.map("map").setView([35.764252, 10.811289], 13);
 
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
 
-
-
-
-
-
-
-  <script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-
-    import {
-      getDatabase,
-      ref,
-      onValue,
-    } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
-    // import firebase from "https://www.gstatic.com/firebasejs/9.17.2/firebase-"
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyDWwX4DVyHOY0FtgWCivVixEXxCyYpCYYc",
-      authDomain: "project-6120395548410327973-d62b0.firebaseapp.com",
-      projectId: "project-6120395548410327973",
-      storageBucket: "project-6120395548410327973.appspot.com",
-      messagingSenderId: "528752702372",
-      appId: "1:528752702372:web:8fa1a064b05b1f2fac0731",
-      measurementId: "G-K4WZFRZWE9"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-
-    const database = getDatabase(app);
-
-    const temperature = document.getElementById("temperature_c");
-    const cardiaque = document.getElementById("Cardiaque");
-    const temperature_environement = document.getElementById("Env_temp");
-    const humidity = document.getElementById("Humidity");
-    const lat = document.getElementById("latitude");
-    const lon = document.getElementById("longitude");
-
-    const temperatureRef = ref(database, "temperature_c");
-    onValue(temperatureRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log(data);
-      temperature.innerHTML = data;
-    });
-    const cardiaqueRef = ref(database, "cardiaque");
-    onValue(cardiaqueRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log(data);
-      cardiaque.innerHTML = data;
-    });
-    const tempEnvRef = ref(database, "tempEnv");
-    onValue(tempEnvRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log(data);
-      temperature_environement.innerHTML = data;
-    });
-    const humidityRef = ref(database, "humidity");
-    onValue(humidityRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log(data);
-      humidity.innerHTML = data;
-    });
-    const longitudeRef = ref(database, "longitude");
-    onValue(longitudeRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log(data);
-      lon.innerHTML = data;
-    });
-    const latitudeRef = ref(database, "latitude");
-    onValue(latitudeRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log(data);
-      lat.innerHTML = data;
-    });
-  </script>
-</body>
-
+      L.marker([lat, lon])
+        .addTo(map)
+        .bindPopup("here you are")
+        .openPopup();
+    </script>
+  </body>
 </html>
